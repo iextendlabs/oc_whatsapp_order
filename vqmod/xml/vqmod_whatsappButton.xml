@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<modification>
+    <id>VQMOD CORE FOR OPENCART - DO NOT REMOVE</id>
+    <version>1.4.x and above</version>
+    <vqmver required="true">2.6.0</vqmver>
+    <author>vqmod.com</author>
+
+    <file name="catalog/controller/product/product.php">
+        <operation>
+            <search position="before"><![CDATA[$data['column_left'] = $this->load->controller('common/column_left');]]></search>
+            <add><![CDATA[
+			$data['module_whatsapp_button_status'] = $this->config->get('module_whatsapp_button_status');
+			$data['whatsapp_number'] = str_replace(" ","",$this->config->get('module_whatsapp_number'));
+			$data['whatsapp_button_color'] = $this->config->get('module_whatsapp_button_color');
+			$data['whatsapp_message'] = $this->config->get('module_whatsapp_message');
+			$data['whatsapp_button_text'] = $this->config->get('module_whatsapp_button_text');
+			]]></add>
+        </operation>
+	</file>
+
+    <file name="catalog/view/template/product/product.twig">
+	    <operation>
+            <search position="after"><![CDATA[<button type="submit" id="button-cart" class="btn btn-primary btn-lg btn-block">{{ button_cart }}</button>]]></search>
+            <add><![CDATA[{% if module_whatsapp_button_status %}<a  type="button" class="btn  btn-lg btn-block" style="background-color:{{ whatsapp_button_color }}; color: #fff;" href="https://wa.me/{{ whatsapp_number }}?text={{ whatsapp_message }} URL: {{ share|replace({'&amp;':'&'})|url_encode }}" target="_blank"> {{ whatsapp_button_text }}</a>{% endif %}]]></add>
+        </operation>
+    </file>
+</modification>
